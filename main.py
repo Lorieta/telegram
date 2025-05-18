@@ -1,10 +1,10 @@
 from telethon import TelegramClient
 from telethon.tl.functions.contacts import ImportContactsRequest
 from telethon.tl.types import InputPhoneContact
-import asyncio
+import os
 
-api_id = '21398172'
-api_hash = '4bb0f51ffa700b91f87f07742d6f1d33'
+api_id = os.getenv['TELEGRAM_API_ID']
+api_hash = os.getenv['TELEGRAM_API_HASH']
 session = 'name'
 
 client = TelegramClient(session, api_id, api_hash)
