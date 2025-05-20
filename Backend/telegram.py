@@ -7,6 +7,7 @@ api_id = os.getenv['TELEGRAM_API_ID']
 api_hash = os.getenv['TELEGRAM_API_HASH']
 session = 'name'
 
+
 client = TelegramClient(session, api_id, api_hash)
 
 async def main(receiver_phone, receiver_first_name='', receiver_last_name=''):
