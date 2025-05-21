@@ -44,7 +44,7 @@ def extract_json_list(text):
         return match.group(0)
     return None
 
-async def analyze_emotion(prompt: str, model: str = "hf.co/unsloth/gemma-3-4b-it-GGUF:IQ4_XS"):
+async def analyze_emotion(prompt: str, model: str = "llama3.2:1b"):
     messages = [
         {'role': 'system', 'content': system_prompt},
         {'role': 'user', 'content': prompt}
@@ -74,3 +74,6 @@ async def analyze_emotion(prompt: str, model: str = "hf.co/unsloth/gemma-3-4b-it
 
 if __name__ == "__main__":
     asyncio.run(analyze_emotion("sana wag na si maam magtanong technical HAHAHAHAHHA"))
+
+
+
