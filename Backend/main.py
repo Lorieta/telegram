@@ -1,17 +1,21 @@
+
+import os
+import json
+from datetime import datetime
+import re
+import chatInference
+
 from fastapi import FastAPI,Query
 from pydantic import BaseModel
 from telethon import TelegramClient
 from telethon.tl.functions.contacts import ImportContactsRequest
 from telethon.tl.types import InputPhoneContact
-import os
 
 api_id = os.getenv('TELEGRAM_API_ID')
 api_hash = os.getenv('TELEGRAM_API_HASH')
 
 session = 'name'
-
 client = TelegramClient(session, api_id, api_hash)
-
 app = FastAPI()
 
 class ContactRequest(BaseModel):
@@ -46,9 +50,25 @@ async def get_messages(data: ContactRequest):
                 "text": msg.text
             })
 
-        return {
+        response_data = {
             "sender": sender,
             "receiver": rec_name,
             "messages": messages
         }
-        
+
+        # Ensure the directory exists
+        save_dir = "saved_messages"
+        os.makedirs(save_dir, exist_ok=True)
+
+        # Sanitize receiver name for filename
+        safe_rec_name = re.sub(r'[^a-zA-Z0-9_-]', '_', rec_name)
+        filename = f"{safe_rec_name}.json"
+        file_path = os.path.join(save_dir, filename)
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(response_data, f, ensure_ascii=False, indent=2)
+
+        return {
+            "message": "Messages retrieved and saved as JSON.",
+            "file_path": file_path,
+            **response_data
+        }
