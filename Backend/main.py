@@ -1,10 +1,9 @@
 
 import os
 import json
-from datetime import datetime
 import re
-import chatInference
-
+from chatInference import textExtraction
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI,Query
 from pydantic import BaseModel
 from telethon import TelegramClient
@@ -72,3 +71,8 @@ async def get_messages(data: ContactRequest):
             "file_path": file_path,
             **response_data
         }
+@app.get("/generate")
+async def generate():
+    result = await textExtraction()
+   
+    return JSONResponse(result)
