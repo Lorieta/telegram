@@ -5,7 +5,7 @@ import json
 import os
 
 SYSTEM_PROMPT = """
-You are an expert emotional analysis assistant. Your task is to analyze input text and assign scores (0-10) to 8 fundamental emotions: **joy, acceptance, fear, surprise, sadness, disgust, anger, and anticipation**.
+You are an expert emotional analysis assistant. Your task is to analyze input text and assign scores (0.0-10.0) to 8 fundamental emotions: **joy, acceptance, fear, surprise, sadness, disgust, anger, and anticipation**.
 
 For each emotion, provide a concise reason for the assigned score.
 
@@ -26,10 +26,11 @@ Output your analysis as a valid Python list in the following format:
 * Each of the 8 emotions must be included exactly once.
 * Reasons for scores must be logical, concise, and directly support the assigned intensity.
 * Adhere strictly to the specified JSON output format.
+* Make the analysis short and simple
 """
 
 EMOTIONS = ["joy", "acceptance", "fear", "surprise", "sadness", "disgust", "anger", "anticipation"]
-DEFAULT_MODEL = "qwen2.5:0.5b"
+DEFAULT_MODEL = "gemma3:4b"
 
 def extract_json_list(text: str) -> str | None:
     match = re.search(r'\[\s*{.*?}\s*\]', text, re.DOTALL)
@@ -64,14 +65,14 @@ async def analyze_emotion(prompt: str, model: str = DEFAULT_MODEL) -> list[dict]
             if "score" in item:
                 try:
                     score_float = float(item["score"])
-                    if not (1 <= score_float <= 10):
+                    if not (0.0 <= score_float <= 10.0):
                         print(f"Warning: Score for '{item.get('dim')}' ({score_float}) is out of expected range (0-10).")
                         item["score"] = max(0.0, min(10.0, score_float))
                     else:
                         item["score"] = score_float
                 except (ValueError, TypeError):
                     print(f"Warning: Invalid score type for '{item.get('dim')}'. Expected a number, got '{item['score']}'.")
-                    item["score"] = 1.0
+                    item["score"] = 0.0
         return emotion_data
 
     except json.JSONDecodeError as e:
@@ -130,3 +131,4 @@ async def textExtraction():
     except Exception as e:
         print("Save error:", e)
         return {"error": f"Failed to save analysis results: {e}"}
+

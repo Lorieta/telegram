@@ -3,6 +3,7 @@ import os
 import json
 import re
 from chatInference import textExtraction
+from RAGPipeline import suggesitonGeneration
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI,Query
 from pydantic import BaseModel
@@ -74,5 +75,12 @@ async def get_messages(data: ContactRequest):
 @app.get("/generate")
 async def generate():
     result = await textExtraction()
+   
+    return JSONResponse(result)
+
+
+@app.get("/suggestion")
+async def generate():
+    result = await suggesitonGeneration()
    
     return JSONResponse(result)
