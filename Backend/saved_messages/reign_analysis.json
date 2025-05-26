@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "text": "Excited na ako pre!!!!",
+      "timestamp": "2025-05-21 02:36:42+00:00",
+      "analysis": [
+        {
+          "analysis": "excitement",
+          "dim": "joy",
+          "score": 0.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "acceptance",
+          "score": 10.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "fear",
+          "score": 5.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "surprise",
+          "score": 10.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "sadness",
+          "score": 5.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "disgust",
+          "score": 0.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "anticipation",
+          "score": 10.0
+        },
+        {
+          "analysis": "joy",
+          "dim": "anger",
+          "score": 5.0
+        }
+      ]
+    },
+    {
+      "text": "Ako din ehhh",
+      "timestamp": "2025-05-21 02:36:30+00:00",
+      "analysis": null
+    }
+  ]
+}
