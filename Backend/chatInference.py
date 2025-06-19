@@ -143,26 +143,6 @@ async def main():
     except Exception as e:
         print(f"Error saving results: {e}")
 
-# Simple statistics function
-def get_stats(results: list[dict]) -> dict:
-    """Get basic emotion statistics"""
-    emotions = {}
-    for result in results:
-        emotion = result["emotion"]
-        score = result["score"]
-        
-        if emotion not in emotions:
-            emotions[emotion] = {"count": 0, "total_score": 0, "scores": []}
-        
-        emotions[emotion]["count"] += 1
-        emotions[emotion]["total_score"] += score
-        emotions[emotion]["scores"].append(score)
-    
-    # Calculate averages
-    for emotion, data in emotions.items():
-        data["average_score"] = data["total_score"] / data["count"]
-    
-    return emotions
 
 if __name__ == "__main__":
     asyncio.run(main())
