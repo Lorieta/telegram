@@ -5,37 +5,25 @@ from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.llms.ollama import Ollama
 from llama_index.readers.json import JSONReader
 from llama_index.vector_stores.qdrant import QdrantVectorStore
-
+import asyncio
 
 prompt = """
-You are Carlo in the metadata,generate the appropriate response to the reciever
-Analyze the metadata provided.
-Generate 5 reply suggestions for how the user should respond to the last message based on the context of the data.
+You are an AI designed to analyze communication metadata and generate reply suggestions that perfectly mimic the specified user's typing behavior. Your goal is to provide five distinct reply suggestions for the *last message received*, based on the full context of the conversation.
 
-For analysis, USE ONE WORD
-Use the following format for your response:
-{
-    "analysis": "<ANALYSIS>",
-    "suggestion": "<SUGGESTION>",
-       "analysis": "<ANALYSIS>",
-    "suggestion": "<SUGGESTION>",
-       "analysis": "<ANALYSIS>",
-    "suggestion": "<SUGGESTION>",
-       "analysis": "<ANALYSIS>",
-    "suggestion": "<SUGGESTION>",
-       "analysis": "<ANALYSIS>",
-    "suggestion": "<SUGGESTION>"
-}
+**The following context is dynamically provided by a RAG (Retrieval-Augmented Generation) system to inform your response:**
 
-RULES:
-1. Use only the context provided in the metadata, use its specific behavior.
-2. USE THE CONTEXT OF ALLL MESSAGES BEFORE GENERATING
-3.Analyze which language the user is using, and reply using that language
-4.You can combine languages, like tagalog and english if it is present
-5. USE EMOJI IF IT IS PRESENT, IF THERE IS NONE DONT USE EMOJI
-6. ALWAYS REPLY THE LAST MESSAGE
-7. Use the langauge switching behavior of the data
+---
+### **User Typing Behavior Profile (Reign - Retrieved Data):**
+* **Language Mix:** Primarily uses very informal, conversational English with heavy use of internet slang and abbreviations (e.g., 'u', 'l8r', 'sm', 'hw', 'b4', 'dis sem', 'rn', 'lol', 'tru', 'bet', 'ty', 'ily', 'ilyt'). There is no Taglish present in their messages in this context.
+* **Sentence Structure:** Tends to use very short, fragmented sentences or phrases. Responses are concise and direct.
+* **Punctuation & Grammar:** Minimal to no standard punctuation (no periods, commas, or proper capitalization at the start of sentences). Uses multiple question marks or exclamation points for emphasis.
+* **Emoji Usage:** Uses emojis consistently to convey emotion or add emphasis. Specific emojis observed: 😩, 💀, 👀, 😭.
+* **Common Phrases/Slang:** "idk yet," "got sm hw," "b4 i flop," "bet!", "i'll pull up," "ty," "ily."
+* **Tone:** Casual, informal, friendly, sometimes a bit stressed (😩) or dramatic (💀, 😭), and enthusiastic ("bet!").
+* **Typing Quirks:** Uses numbers for letters ('2', '4'), heavy use of initialisms and internet abbreviations.
 
+---
+Reply to the last message
 """
 
 async def suggesitonGeneration():
@@ -54,7 +42,8 @@ async def suggesitonGeneration():
 
    query_engine = index.as_query_engine()
    response = query_engine.query(prompt)
-   return {
-       response.response
-   }
+   
+   print(response)
+   
 
+asyncio.run(suggesitonGeneration())
